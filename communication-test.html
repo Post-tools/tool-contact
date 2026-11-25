@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GAS通信テスト</title>
+</head>
+<body>
+  <h1>GAS通信テスト</h1>
+  <button id="runTest" type="button">通信テスト</button>
+  <pre id="testResult">未実行</pre>
+
+  <script>
+    const TEST_GAS_URL = "https://script.google.com/macros/s/AKfycbz4laXIzJhP63OHfXeYpBgOxueXoFH883TCkCzedsaqrhrUj4X3HQrD93hHtfQEu5Ro/exec";
+
+    const button = document.getElementById("runTest");
+    const output = document.getElementById("testResult");
+
+    button.addEventListener("click", async () => {
+      const message = "通信テスト " + new Date().toISOString();
+      const startedAt = performance.now();
+
+      button.disabled = true;
+      output.textContent = "送信中…";
+
+      try {
+        const response = await fetch(TEST_GAS_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const responseText = await response.text();
+        const elapsedMs = Math.round(performance.now() - startedAt);
+
+        let responseData;
+        try {
+          responseData = JSON.parse(responseText);
+        } catch {
+          responseData = responseText;
+        }
+
+        output.textContent = JSON.stringify({
+          elapsedMs: elapsedMs + " ms",
+          httpStatus: response.status,
+          response: responseData
+        }, null, 2);
+      } catch (error) {
+        const elapsedMs = Math.round(performance.now() - startedAt);
+
+        output.textContent = JSON.stringify({
+          elapsedMs: elapsedMs + " ms",
+          error: error.name + ": " + error.message,
+          note: "GAS側の実行履歴も確認してください。CORS制約で応答を読めない場合があります。"
+        }, null, 2);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
