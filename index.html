@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>制作ツール　お問い合わせ窓口</title>
+<style>
+:root {
+  --background:#f1f2f4;
+  --text:#333;
+  --muted:#777;
+  --green:#398b61;
+}
+body.dark {
+  --background:#202124;
+  --text:#eee;
+  --muted:#aaa;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--background);
+  color:var(--text);
+  font-family:sans-serif;
+  transition:background .2s,color .2s;
+}
+header {
+  max-width:850px;
+  margin:25px auto 15px;
+  padding:0 18px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+button,input,select,textarea {font:inherit;}
+button {cursor:pointer;}
+.theme {
+  border:1px solid #ccc;
+  background:white;
+  color:#333;
+  border-radius:20px;
+  padding:8px 14px;
+}
+main {
+  width:min(100% - 28px,620px);
+  margin:25px auto 60px;
+}
+.card {
+  background:#fff;
+  color:#333;
+  border-radius:13px;
+  padding:32px;
+  box-shadow:0 4px 18px #0000000b;
+}
+h1 {font-size:24px;margin:0 0 12px;}
+.description {
+  color:#777;
+  font-size:14px;
+  line-height:1.8;
+  margin-bottom:25px;
+}
+.field {margin:21px 0;}
+label {
+  display:block;
+  font-weight:600;
+  font-size:14px;
+  margin-bottom:8px;
+}
+input,select,textarea {
+  width:100%;
+  border:1px solid #d8d8d8;
+  border-radius:7px;
+  padding:12px;
+  background:white;
+  color:#333;
+}
+textarea {min-height:150px;resize:vertical;}
+small {color:#888;line-height:1.7;}
+.primary {
+  width:100%;
+  border:0;
+  border-radius:7px;
+  padding:14px;
+  background:#398b61;
+  color:white;
+  font-weight:bold;
+  margin-top:12px;
+}
+.secondary {
+  border:1px solid #ccc;
+  border-radius:7px;
+  padding:10px 14px;
+  background:white;
+  color:#333;
+}
+.link {
+  background:none;
+  border:0;
+  color:#398b61;
+  text-decoration:underline;
+  padding:8px;
+}
+.center {text-align:center;}
+.notice {
+  background:#f2f7f3;
+  padding:15px;
+  border-radius:7px;
+  line-height:1.8;
+  font-size:14px;
+  margin:18px 0;
+  overflow-wrap:anywhere;
+}
+.record {
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:14px;
+  margin:12px 0;
+  font-size:14px;
+  overflow-wrap:anywhere;
+}
+.record p {line-height:1.7;}
+.hidden {display:none;}
+.file-note {
+  background:#f5f7f5;
+  border-radius:7px;
+  padding:12px;
+  color:#555;
+  font-size:13px;
+  line-height:1.8;
+  margin-bottom:10px;
+}
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:15px;
+}
+@media(max-width:500px) {
+  .card {padding:23px 18px;}
+  h1 {font-size:21px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="theme" onclick="toggleTheme()">☾ / ☀ テーマ</button>
+</header>
+
+<main>
+
+<section id="home" class="card">
+  <h1 class="center">制作ツール　お問い合わせ窓口</h1>
+  <p class="description">
+    制作ツールに関する不具合報告・改善要望・ご質問はこちらからお送りください。<br>
+    お名前やメールアドレスの入力は不要です。
+  </p>
+  <button class="primary" onclick="show('form')">
+    新しくお問い合わせする
+  </button>
+  <button class="secondary" style="width:100%;margin-top:10px"
+    onclick="show('lookup')">
+    送信済みのお問い合わせを確認する
+  </button>
+</section>
+
+<section id="form" class="card hidden">
+  <h1>お問い合わせ</h1>
+  <p class="description">
+    お問い合わせ内容を入力してください。
+  </p>
+
+  <form id="contactForm">
+
+    <div class="field">
+      <label for="category">お問い合わせ種別 *</label>
+      <select id="category" required>
+        <option value="">選択してください</option>
+        <option>不具合報告</option>
+        <option>改善要望</option>
+        <option>質問</option>
+        <option>その他</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="tool">対象ツール *</label>
+      <select id="tool" required>
+        <option value="">選択してください</option>
+        <option>ダイス集計ツール</option>
+        <option>オリウマ・シナリオ管理ツール</option>
+        <option>その他</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="detail">お問い合わせ内容 *</label>
+      <textarea id="detail" required
+        placeholder="お問い合わせ内容を入力してください"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="images">スクリーンショット（任意）</label>
+
+      <div class="file-note">
+        不具合報告の場合、発生時の画面やエラー表示などのスクリーンショットを添付していただけると、状況の確認や原因の調査に役立ちます。<br>
+        ※画像の添付は任意です。画像がなくてもお問い合わせいただけます。
+      </div>
+
+      <input type="file" id="images" accept="image/*" multiple>
+      <small id="fileName">画像は複数枚選択できます。</small>
+    </div>
+
+    <div class="field">
+      <label for="reply">返信希望</label>
+      <label style="display:flex;align-items:center;gap:9px;font-weight:normal;cursor:pointer">
+        <input type="checkbox" id="reply" style="width:auto;margin:0">
+        返信を希望する
+      </label>
+    </div>
+
+    <button class="primary" type="submit">
+      お問い合わせを送信する
+    </button>
+
+    <button class="secondary" type="button"
+      style="width:100%;margin-top:10px"
+      onclick="show('home')">
+      戻る
+    </button>
+  </form>
+</section>
+
+<section id="complete" class="card hidden">
+  <h1 class="center">送信しました</h1>
+  <p class="description center">
+    お問い合わせを受け付けました。
+  </p>
+
+  <div class="notice">
+    <strong>受付番号</strong>
+    <p id="issuedId"></p>
+    <strong>確認用パスワード</strong>
+    <p id="issuedPassword"></p>
+    この番号とパスワードを必ず控えてください。
+  </div>
+
+  <button class="primary" onclick="show('lookup')">
+    返信確認画面へ
+  </button>
+  <button class="secondary"
+    style="width:100%;margin-top:10px"
+    onclick="show('home')">
+    トップへ戻る
+  </button>
+</section>
+
+<section id="lookup" class="card hidden">
+  <h1>お問い合わせの確認</h1>
+  <p class="description">
+    受付番号と確認用パスワードを入力してください。
+  </p>
+
+  <div class="field">
+    <label for="lookupId">受付番号</label>
+    <input id="lookupId" placeholder="受付番号">
+  </div>
+
+  <div class="field">
+    <label for="lookupPassword">確認用パスワード</label>
+    <input id="lookupPassword" type="password"
+      placeholder="パスワード">
+  </div>
+
+  <button class="primary" onclick="lookup()">確認する</button>
+  <p id="lookupError" style="color:#c33"></p>
+  <button class="link" onclick="show('home')">戻る</button>
+</section>
+
+<section id="thread" class="card hidden">
+  <h1>お問い合わせ履歴</h1>
+  <div id="threadContent"></div>
+
+  <div class="field">
+    <label for="userMessage">追加メッセージ</label>
+    <textarea id="userMessage"
+      placeholder="追加のメッセージを入力してください"></textarea>
+  </div>
+
+  <button class="primary" onclick="sendUserMessage()">
+    メッセージを送信
+  </button>
+  <button class="link" onclick="show('home')">トップへ戻る</button>
+</section>
+
+
+</main>
+
+<footer>制作ツール　お問い合わせ窓口</footer>
+
+<script>
+let currentId = null;
+
+function show(id) {
+  document.querySelectorAll('main section')
+    .forEach(s => s.classList.add('hidden'));
+
+  document.getElementById(id).classList.remove('hidden');
+
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+
+  localStorage.setItem(
+    'contactTheme',
+    document.body.classList.contains('dark') ? 'dark' : 'light'
+  );
+}
+
+if (localStorage.getItem('contactTheme') === 'dark') {
+  document.body.classList.add('dark');
+}
+
+function getRecords() {
+  return JSON.parse(
+    localStorage.getItem('contactRecords') || '[]'
+  );
+}
+
+function saveRecords(records) {
+  localStorage.setItem(
+    'contactRecords',
+    JSON.stringify(records)
+  );
+}
+
+function randomCode(length) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return result;
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  })[c]);
+}
+
+document.getElementById('images').addEventListener('change', e => {
+  const files = Array.from(e.target.files);
+  document.getElementById('fileName').textContent =
+    files.length
+      ? files.length + '枚の画像が選択されています（デモでは画像本体は保存されません）。'
+      : '画像は複数枚選択できます。';
+});
+
+document.getElementById('contactForm')
+.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const id = randomCode(6);
+  const password = randomCode(8);
+
+  const record = {
+    id,
+    password,
+    category: document.getElementById('category').value,
+    tool: document.getElementById('tool').value,
+    detail: document.getElementById('detail').value,
+    reply: document.getElementById('reply').checked ? '希望する' : '希望しない',
+    imageNames: Array.from(
+      document.getElementById('images').files
+    ).map(file => file.name),
+    status:'未対応',
+    messages:[],
+    created:new Date().toLocaleString()
+  };
+
+  const records = getRecords();
+  records.push(record);
+  saveRecords(records);
+
+  document.getElementById('issuedId').textContent = id;
+  document.getElementById('issuedPassword').textContent = password;
+
+  e.target.reset();
+  document.getElementById('fileName').textContent =
+    '画像は複数枚選択できます。';
+
+  show('complete');
+});
+
+function lookup() {
+  const id = document.getElementById('lookupId').value.trim();
+  const password =
+    document.getElementById('lookupPassword').value.trim();
+
+  const record = getRecords().find(
+    r => r.id === id && r.password === password
+  );
+
+  if (!record) {
+    document.getElementById('lookupError').textContent =
+      '受付番号またはパスワードが違います。';
+    return;
+  }
+
+  currentId = id;
+  document.getElementById('lookupError').textContent = '';
+
+  renderThread(record);
+  show('thread');
+}
+
+function renderThread(record) {
+  const messages = record.messages.map(m => `
+    <div class="record">
+      <strong>${m.from === 'admin'
+        ? '管理者からの返信'
+        : '追加メッセージ'}</strong>
+      <p>${escapeHTML(m.text)}</p>
+      <small>${escapeHTML(m.date)}</small>
+    </div>
+  `).join('');
+
+  document.getElementById('threadContent').innerHTML = `
+    <div class="notice">
+      <strong>${escapeHTML(record.category)}｜${escapeHTML(record.tool)}</strong>
+      <p>受付番号：${escapeHTML(record.id)}</p>
+      <p>状態：${escapeHTML(record.status)}</p>
+      <p>${escapeHTML(record.detail)}</p>
+      ${record.imageNames.length
+        ? '<p>添付ファイル：' +
+          record.imageNames.map(escapeHTML).join('、') + '</p>'
+        : ''}
+    </div>
+    ${messages}
+  `;
+}
+
+function sendUserMessage() {
+  const text =
+    document.getElementById('userMessage').value.trim();
+
+  if (!text) return;
+
+  const records = getRecords();
+  const record = records.find(r => r.id === currentId);
+
+  if (!record) return;
+
+  record.messages.push({
+    from:'user',
+    text,
+    date:new Date().toLocaleString()
+  });
+
+  saveRecords(records);
+  document.getElementById('userMessage').value = '';
+  renderThread(record);
+}
+
+</script>
+</body>
+</html>
