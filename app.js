@@ -50,12 +50,11 @@ async function callGas(payload) {
   return data;
 }
 
-// 画像ファイルをBase64形式に変換する関数
 function readFileAsBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      const base64Data = reader.result.split(',')[1];
+      const base64Data = reader.result.split(',').pop();
       resolve({
         name: file.name,
         type: file.type,
