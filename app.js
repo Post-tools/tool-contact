@@ -1,5 +1,5 @@
 // ★ここに質問者用GAS（プロジェクト①）のウェブアプリURLを貼り付けてください
-const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxm3mH_ykrIzv78YjS17QU5uOzIoRs6w0HWTZfwX7_8iEwRtwVmIsbqx9qsc1ncZw/exec';
+const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxW1kZ5S7x9n5jetH30cj4ZpjMy98WFOqbim_X8AV3wLhhvm1k7w30i8dxR7VaUzJA/exec';
 
 let currentId = null;
 let currentPassword = null;
